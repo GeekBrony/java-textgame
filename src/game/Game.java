@@ -40,16 +40,17 @@ public class Game {
 	}
 	
 	public void runInstance() {
-		Tools.toAreaSpaced("ayy fam welcome to the game this is the best ever ill tell u that");
-		Tools.toAreaSpaced("but before you continue, lemme tell you something:");
-		Tools.toAreaSpaced("apparently if you type \"help\", you'll see the list of commands, haha");
+		Tools.toAreaSpaced(Strings.getString("start"));
 		Tools.toAreaSpaced("");
 		Food pear = new Food("pear", 5);
 		Actions.addToInventory(pear);
-		Food alcohol = new Food("alcohol", -5);
+		Food alcohol = new Food("beer", -5, true);
 		Actions.addToInventory(alcohol);
 		Food apple = new Food("apple", 3);
 		Actions.addToInventory(apple);
+		
+		Tools.toAreaSpaced("");
+		Tools.toAreaSpaced("What do you want to do?");
 		
 		run = true;
 		while(run) {
@@ -104,12 +105,16 @@ public class Game {
 					} else {
 						Tools.toAreaSpaced("You have no food in your inventory.");
 					}
-				} else if(spl.length == 2) {
-					int offset = Actions.inv.getItemOffsetWithItemName(spl[1]);
+				} else if(spl.length == 2 || (spl.length == 3 || in.replaceFirst(" ", "").contains(" "))) {
+					String useThisString = spl[1];
+					if(spl.length == 3){
+						useThisString += " " + spl[2];
+					}
+					int offset = Actions.inv.getItemOffsetWithItemName(useThisString);
 					if(offset != -1) {
 						Actions.eat((Food) Actions.inv.getItemAtOffset(offset));
 					} else {
-						Tools.toAreaSpaced("There is no such food named \""+spl[1]+"\" in your inventory.");
+						Tools.toAreaSpaced("There is no such food named \""+useThisString+"\" in your inventory.");
 					}
 				} else {
 					Tools.toAreaSpaced("Usage: eat [food name]");
@@ -147,7 +152,7 @@ public class Game {
 	public static void endGame() {
 		Tools.toAreaSpaced("");
 		Tools.toAreaSpaced("/---------------------\\");
-		Tools.toAreaSpaced("|     GAME   OVER     |");
+		Tools.toAreaSpaced("|  G A M E   O V E R  |");
 		Tools.toAreaSpaced("\\---------------------/");
 		Tools.toAreaSpaced("");
 		run = false;

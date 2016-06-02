@@ -7,10 +7,18 @@ public class Food extends Item {
 	private String name = "";
 	private double nutrition = 0;
 	private boolean hasBeenEaten = false;
+	private boolean isLiquid = false;
 	
 	public Food(String name, double nutrition) {
 		this.name = name;
 		this.nutrition = nutrition;
+		hasBeenEaten = false;
+	}
+	
+	public Food(String name, double nutrition, boolean isLiquid) {
+		this.name = name;
+		this.nutrition = nutrition;
+		this.isLiquid = isLiquid;
 		hasBeenEaten = false;
 	}
 	
@@ -24,6 +32,10 @@ public class Food extends Item {
 		return hasBeenEaten;
 	}
 	
+	public boolean isLiquid() {
+		return isLiquid;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -34,6 +46,7 @@ public class Food extends Item {
 	public String toString() {
 		ArrayList<String> ss = new ArrayList<String>();
 		ss.add("Name: "+name);
+		ss.add("Liquid? "+(isLiquid ? "Yes": "No"));
 		ss.add("Nutrition Value: "+nutrition);
 		ss.add("Has it been eaten? "+(hasBeenEaten ? "Yes" : "No"));
 		return ss.toString();

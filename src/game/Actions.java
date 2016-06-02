@@ -9,8 +9,8 @@ public class Actions {
 	}
 	
 	public static void createInventory() {
-		Tools.logln("Created inventory", 1);
 		inv = new Inventory();
+		Tools.logln("Created inventory", 1);
 	}
 	
 	public static int addToInventory(Item i) {
@@ -32,11 +32,18 @@ public class Actions {
 	public static void eat(Food f) {
 		double nutrients = f.getNutritionValue();
 		if(f.checkIfEaten()) f.eat(); //for now
+		String drinkOrEat = "";
+		if(f.isLiquid()) {
+			drinkOrEat = "drank";
+		} else {
+			drinkOrEat = "ate";
+		}
 		if(nutrients > 0.0) {
-			Tools.toAreaSpaced("You take the "+f.getName() + " out of your pocket. You ate it and gained "+nutrients+" health.");
+			Tools.toAreaSpaced("You take the "+f.getName() + " out of your pocket. You "+drinkOrEat+" it and gained "+nutrients+" health.");
 			Stat.addHealth(nutrients);
 		} else if(nutrients < 0.0) {
-			Tools.toAreaSpaced("You take the "+f.getName() + " out of your pocket. You took the risk, ate it and lost "+Math.abs(nutrients)+" health.");
+
+			Tools.toAreaSpaced("You take the "+f.getName() + " out of your pocket. You took the risk, "+drinkOrEat+" it and lost "+Math.abs(nutrients)+" health.");
 			Stat.subtractHealth(nutrients);
 		}
 		removeFromInventory(f);
