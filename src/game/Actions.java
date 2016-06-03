@@ -46,6 +46,12 @@ public class Actions {
 			Tools.toAreaSpaced("You take the "+f.getName() + " out of your pocket. You took the risk, "+drinkOrEat+" it and lost "+Math.abs(nutrients)+" health.");
 			Stat.subtractHealth(nutrients);
 		}
+		if(f.getName().equals("Mountain Dew")) {
+			Tools.toAreaSpaced("As you slowly sip the dew, you remember how euphoric your last dew was.");
+			Tools.toAreaSpaced("The flavor tastes like "+Strings.getString("dew_flavors")
+							+" and adds another minute to your life. You feel like");
+			Tools.toAreaSpaced("you can pwn salty scr0bs all day. \t\tYou like the dew, don't you, huh?");
+		}
 		removeFromInventory(f);
 	}
 

@@ -92,7 +92,7 @@ public class Tools {
 	}
 	
 	public static int randomize(int range) {
-		return makeInt(Math.random() * (range - 1));
+		return makeInt(Math.random() * (range));
 	}
 	
 	public static boolean checkProperArticle(String n) {
@@ -104,5 +104,16 @@ public class Tools {
 	
 	public static String articleForString(String n) {
 		return Tools.checkProperArticle(n) ? "a" : "an";
+	}
+
+	public static boolean containsSwears(String text) {
+		String[] s = text.split(" ");
+		for(int i = 0; i < s.length; i++) {
+			if(s[i].equalsIgnoreCase("fuck") || s[i].equalsIgnoreCase("shit") ||
+			s[i].equalsIgnoreCase("ass") || s[i].equalsIgnoreCase("bitch") ||
+			s[i].equalsIgnoreCase("fucking") || s[i].equalsIgnoreCase("fucker"))
+				return true;
+		}
+		return false;
 	}
 }

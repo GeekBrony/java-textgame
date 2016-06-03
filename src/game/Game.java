@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,24 +9,33 @@ public class Game {
 	public ArrayList<String> commandHistory = new ArrayList<String>();
 	public static boolean run = false;
 	private Scanner scan;
+	public static boolean MLGMode = false;
 	
 	private final String[] cmdsAvailable = {
 			"clear",
 			"exit",
 			"eat",
+			"drink",
+			"git gud",
 			"health",
 			"history",
 			"help",
+			"joke",
+			"mlg",
 			"suicide",
 	};
 	private final String[] cmdDescriptions = {
 			"Clear the screen",
 			"Exit the game.",
 			"Eat food.",
+			"Drink liquid.",
+			"",
 			"Display HP",
 			"Display the previous commands entered.",
 			"Show the available commands and the game info.",
-			"Permanent solution to a temporary problem."
+			"Tell a joke",
+			"MLG mode toggle ;)",
+			"Permanent solution to a temporary problem. Not a viable option."
 	};
 	
 	public Game(boolean textOnlyMode) {
@@ -64,7 +74,15 @@ public class Game {
 		String[] spl = in.split(" ");
 		boolean hasCommand = false;
 		for(int i = 0; i < cmdsAvailable.length; i++) {
-			if(cmdsAvailable[i].equalsIgnoreCase(spl[0])) {
+			String combined = spl[0];
+			if(spl.length == 2) {
+				combined += " "+spl[1];
+			} else if(spl.length == 3) {
+				combined += " "+spl[1] + " "+spl[2];
+			} else if(spl.length == 4) {
+				combined += " "+spl[1] + " "+spl[2] + ""+spl[3];
+			}
+			if(cmdsAvailable[i].equalsIgnoreCase(combined) || cmdsAvailable[i].equalsIgnoreCase(spl[0])) {
 				hasCommand = true;
 				// do things
 			}
@@ -83,27 +101,34 @@ public class Game {
 			} else if(spl[0].equalsIgnoreCase("help")) {
 				for(int index = 0; index < cmdsAvailable.length; index++) {
 					Tools.toAreaSpaced(cmdsAvailable[index] + " -> "
-							+ cmdDescriptions[index]);
+							+ (cmdDescriptions[index].equals("") ? "[no description available]" :
+								cmdDescriptions[index]));
 				}
 			} else if(spl[0].equalsIgnoreCase("health")) {
 				Actions.displayHealth();
-			} else if(spl[0].equalsIgnoreCase("eat")) {
+			} else if(spl[0].equalsIgnoreCase("eat") || spl[0].equalsIgnoreCase("drink") ) {
+				String foodOrDrink = spl[0].equalsIgnoreCase("eat") ? "food" : "drink";
+				String sd = spl[0].equalsIgnoreCase("eat") ? "food" : "drinks";
 				if(spl.length == 1) {
 					String s = "";
 					int num = 0;
 					for(int i = 0; i < Actions.inv.inventory().length; i++) {
 						if(Actions.inv.inventory()[i] != null &&
 						Actions.inv.inventory()[i] instanceof Food) {
-							Item it = Actions.inv.getItemAtOffset(i);
-							s += "\t" + it.getID() + " : " + it.getName() + "\n";
+							Food it = (Food) Actions.inv.getItemAtOffset(i);
+							if(spl[0].equalsIgnoreCase("eat")) {
+								if(!it.isLiquid()) s += "\t" + it.getID() + " : " + it.getName() + "\n";
+							} else if(spl[0].equalsIgnoreCase("drink")) {
+								if(it.isLiquid()) s += "\t" + it.getID() + " : " + it.getName() + "\n";
+							}
 							num++;
 						}
 					}
 					if(num > 0) {
-						Tools.toAreaSpaced("You have these food items in your inventory: ");
+						Tools.toAreaSpaced("You have these "+foodOrDrink+" items in your inventory: ");
 						Tools.toAreaSpaced(s);
 					} else {
-						Tools.toAreaSpaced("You have no food in your inventory.");
+						Tools.toAreaSpaced("You have no "+foodOrDrink+sd+" in your inventory.");
 					}
 				} else if(spl.length == 2 || (spl.length == 3 || in.replaceFirst(" ", "").contains(" "))) {
 					String useThisString = spl[1];
@@ -114,15 +139,30 @@ public class Game {
 					if(offset != -1) {
 						Actions.eat((Food) Actions.inv.getItemAtOffset(offset));
 					} else {
-						Tools.toAreaSpaced("There is no such food named \""+useThisString+"\" in your inventory.");
+						Tools.toAreaSpaced("There is no such "+foodOrDrink+" named \""+useThisString+"\" in your inventory.");
 					}
 				} else {
-					Tools.toAreaSpaced("Usage: eat [food name]");
+					Tools.toAreaSpaced("Usage: eat/drink [food/drink name]");
 				}
 			} else if(spl[0].equalsIgnoreCase("suicide")) {
 				Actions.suicide();
 			} else if(spl[0].equalsIgnoreCase("clear")) {
 				Tools.area.setText("");
+			} else if(spl[0].equalsIgnoreCase("joke")) {
+				Tools.area.setText("");
+			} else if(spl[0].equalsIgnoreCase("mlg")) {
+				MLGMode = !MLGMode;
+				if(MLGMode) {
+					Tools.toAreaSpaced(Strings.getString("mlg_activate"));
+					Tools.area.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+					Food dew = new Food("Mountain Dew", 4.2069, true); // 420 l33t hax0r it3m dr0p;
+					Actions.addToInventory(dew);
+				} else {
+					Tools.toAreaSpaced(Strings.getString("mlg_deactivate"));
+					Tools.area.setFont(new Font("Courier", Font.PLAIN, 14));
+				}
+			} else if(spl[0].equalsIgnoreCase("git") && spl.length > 1 && spl[1].equalsIgnoreCase("gud")) {
+				Tools.toAreaSpaced("You look at your screen in guilt as you never figured out why people say \""+in+"\"");
 			} else if(spl[0].equalsIgnoreCase("exit")) {
 				Tools.logln("Exiting...", 1);
 				System.exit(0);

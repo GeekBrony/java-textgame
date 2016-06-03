@@ -61,7 +61,11 @@ public class Panel implements ActionListener {
 			} else {
 				Tools.toAreaSpaced("");
 			}
-			g.handleInput(text.getText());
+			if(!Tools.containsSwears(text.getText())) {
+				g.handleInput(text.getText());
+			} else {
+				Tools.toAreaSpaced(Strings.getString("swear_respond"));
+			}
 		} else {
 			//Tools.logln("Exiting...", 1);
 			//System.exit(0);
