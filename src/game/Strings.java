@@ -16,20 +16,19 @@ public class Strings {
 	};
 	
 	private static String[] joke = {
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		// aaron, put jokes here
+		"Can a kangaroo jump higher than a house? Of course, a house doesn’t jump at all.",
+		"In the beginning, God created the heaven and the earth... After that, everything else was made in China.",
+		"Q: What do politicians and diapers have in common? /n - n/ A: Both should be changed regularly, and both for the same reason.",
+		"I’m selling my talking parrot. Why? Because yesterday, the bastard tried to sell me",
+		"What would you call a very funny mountain? /n - n/ Hill Arious",
+		"Yo mama is so fat she falls from both sides of the bed.",
 	};
 	
 	private static String[] mlgActivate = {
 		"smonk wed evrydey",
 		"4/20 noscoped git gud",
 		"d a n k e s t   o f   m e m e s",
-		"The fitnessgram pacer test is a multistage aerobic capacity test that progressively gets more difficult as it continues.",
+		"The fitnessgram pacer test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The twenty meter pacer test will begin in thirty seconds, line up at the start. The running speed starts slowly and gets faster each minute after you hear this signal.",
 		"git reddy 4 da dank",
 		"here come dat boi",
 		"1v1 me irl in rust u cheeky scr0blord",
@@ -49,6 +48,7 @@ public class Strings {
 		"You should probably cut that language out.",
 		"It isn\'t a good idea to swear.",
 		"Watch your language...",
+		"Please don\'t say that..."
 	};
 	
 	private static String[] suicide =

@@ -11,31 +11,40 @@ public class Game {
 	private Scanner scan;
 	public static boolean MLGMode = false;
 	
+	/*	TODO:
+	 *  - Make the command handler guess what you want depending on the input
+	 *  	Example: "tell a joke" should go to joke =IF= it contains the word joke and stuff.
+	 */
+	
 	private final String[] cmdsAvailable = {
 			"clear",
 			"exit",
 			"eat",
 			"drink",
 			"git gud",
+			"go",
 			"health",
 			"history",
 			"help",
 			"joke",
 			"mlg",
 			"suicide",
+			"walk",
 	};
 	private final String[] cmdDescriptions = {
 			"Clear the screen",
 			"Exit the game.",
 			"Eat food.",
 			"Drink liquid.",
-			"",
+			"If you are feeling lucky...",
+			"Go somewhere",
 			"Display HP",
 			"Display the previous commands entered.",
 			"Show the available commands and the game info.",
 			"Tell a joke",
 			"MLG mode toggle ;)",
-			"Permanent solution to a temporary problem. Not a viable option."
+			"Permanent solution to a temporary problem. Not a viable option.",
+			"Walk somewhere."
 	};
 	
 	public Game(boolean textOnlyMode) {
@@ -54,7 +63,7 @@ public class Game {
 		Tools.toAreaSpaced("");
 		Food pear = new Food("pear", 5);
 		Actions.addToInventory(pear);
-		Food alcohol = new Food("beer", -5, true);
+		Food alcohol = new Food("expired applejuice", -5, true);
 		Actions.addToInventory(alcohol);
 		Food apple = new Food("apple", 3);
 		Actions.addToInventory(apple);
@@ -149,7 +158,7 @@ public class Game {
 			} else if(spl[0].equalsIgnoreCase("clear")) {
 				Tools.area.setText("");
 			} else if(spl[0].equalsIgnoreCase("joke")) {
-				Tools.area.setText("");
+				Tools.toAreaSpaced(Strings.getString("joke"));
 			} else if(spl[0].equalsIgnoreCase("mlg")) {
 				MLGMode = !MLGMode;
 				if(MLGMode) {
@@ -163,6 +172,23 @@ public class Game {
 				}
 			} else if(spl[0].equalsIgnoreCase("git") && spl.length > 1 && spl[1].equalsIgnoreCase("gud")) {
 				Tools.toAreaSpaced("You look at your screen in guilt as you never figured out why people say \""+in+"\"");
+			} else if((spl[0].equalsIgnoreCase("walk") || spl[0].equalsIgnoreCase("go"))) {
+				if(spl.length == 2) {
+					if(spl[1].equalsIgnoreCase("up") || spl[1].equalsIgnoreCase("forward") ||
+					   spl[1].equalsIgnoreCase("straight") || spl[1].equalsIgnoreCase("left") ||
+					   spl[1].equalsIgnoreCase("diagonal") || spl[1].equalsIgnoreCase("right") ||
+					   spl[1].equalsIgnoreCase("back") || spl[1].equalsIgnoreCase("down") ||
+					   spl[1].equalsIgnoreCase("north") || spl[1].equalsIgnoreCase("south") ||
+					   spl[1].equalsIgnoreCase("east") || spl[1].equalsIgnoreCase("west")) {
+						Tools.toAreaSpaced("You try to walk \'"+spl[1]+"\', but you can\'t because the programmers somehow"
+								+ "\nare far too lazy to program anything related to actually accomplishing things, sorry.");
+					} else {
+						if(spl[0].equalsIgnoreCase("go")) Tools.toAreaSpaced("Where is \'"+spl[1]+"\'?");
+						if(spl[0].equalsIgnoreCase("walk")) Tools.toAreaSpaced("What direction is \'"+spl[1]+"\'?");
+					}
+				} else {
+					Tools.toAreaSpaced("Usage: go/walk [direction]");
+				}
 			} else if(spl[0].equalsIgnoreCase("exit")) {
 				Tools.logln("Exiting...", 1);
 				System.exit(0);

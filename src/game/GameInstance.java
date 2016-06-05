@@ -9,8 +9,6 @@ public class GameInstance {
 	
 	public static void main(String[] args) {
 		
-		//int runTimes = 0;
-		
 		p = new Panel(W, H);
 		p.show();
 
